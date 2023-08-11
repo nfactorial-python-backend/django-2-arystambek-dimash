@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="news-card">
+    <img src="{% static 'img/newspaper.jpg' %}"/>
+    <div class="news-text">
+        <h2>News && Newspapper</h2>
+        <p>Explore the most recent developments and stories making headlines worldwide. Get informed and engaged!</p>
+    </div>
+</div>
+<div class="carousel">
+    <div class="carousel-item">
+        <img src="{% static 'img/image5.jpg' %}" alt="Image 3">
+    </div>
+    <div class="carousel-item">
+        <img src="{% static 'img/war2.jpg' %}" alt="Image 2">
+    </div>
+    <div class="carousel-item">
+        <img src="{% static 'img/image4.jpeg' %}" alt="Image 3">
+    </div>
+    <div class="carousel-item">
+        <img src="{% static 'img/war2.jpg' %}" alt="Image 3">
+    </div>
+    <div class="carousel-item">
+        <img src="{% static 'img/image3.webp' %}" alt="Image 3">
+    </div>
+</div>
+<div style="padding-top: 20px;"></div>
+<div class="about-us" id="About">
+    <h1 style="font-size: 30px;">About Us</h1>
+    <div style="display: flex;align-items: center;">
+        <img src="{% static 'img/logo.jpg' %}" class="about-logo"/>
+        <div style="flex: 1;">
+            <p>Welcome to News - your trusted source for accurate, timely, and comprehensive news coverage from around
+                the world. With a commitment to delivering unbiased, factual, and in-depth reporting, we strive to keep
+                you informed and engaged with the latest events, trends, and developments that shape our rapidly
+                changing world.
+                <br>
+                Our Mission
+
+                At NewsWebsite.com, our mission is to provide a platform where information knows no boundaries. We
+                believe that every individual has the right to access news that is transparent, reliable, and relevant.
+                Our dedicated team of experienced journalists, reporters, and editors work tirelessly to bring you news
+                stories that matter most, empowering you to make informed decisions and fostering a deeper understanding
+                of global events.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

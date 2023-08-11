@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+<style>
+    .title{
+        color: black;
+    }
+    .title:hover{
+        color: gray;
+    }
+</style>
+{% if page_obj %}
+{% for news in page_obj %}
+<div class="news-card">
+    <img src="{% static 'img/newspaper.jpg' %}"/>
+    <div class="news-text">
+        <a href="{% url 'news:detail' news.id %}" class="title"><h2>{{ news.title }}</h2></a>
+        <p>{{ news.description }}</p>
+    </div>
+    <div style="padding-top: 15px"></div>
+</div>
+{% endfor %}
+{% else %}
+<center><h1>There are not news</h1></center>
+{% endif %}
+<center>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</center>
+{% endblock %}

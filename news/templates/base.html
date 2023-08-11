@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'news/style.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="sub-navbar">
+            <div class="logo-container">
+                <img src="{% static 'img/logo.jpg' %}" class="logo" alt="Spotify Logo"/>
+                <a href="#" class="nav-link">News</a>
+            </div>
+        </div>
+    </nav>
+    <navbar>
+        <div class="navbar">
+            <div class="navbar-link"><a href="{% url 'news:home' %}">Home</a></div>
+            <div class="navbar-link"><a href="{% url 'news:news' %}">News</a></div>
+            <div class="navbar-link"><a href="{% url 'news:post_news' %}">Post News</a></div>
+        </div>
+    </navbar>
+</header>
+<section>
+    {% block content %}
+    {% endblock %}
+</section>
+<footer>
+    <p>&copy; 2023 News && Newspapper. All rights reserved. | Designed by YourName</p>
+</footer>
+<script>
+    const slider = document.querySelector('.carousel');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    window.addEventListener("scroll", function () {
+        var navbar = document.querySelector('navbar')
+        navbar.classList.toggle('sticky', window.scrollY > 0)
+        navbar.classList.toggle('fade-in', window.scrollY > 0);
+
+    })
+
+    slider.addEventListener('mousedown', e => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', _ => {
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', _ => {
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const SCROLL_SPEED = 1;
+        const walk = (x - startX) * SCROLL_SPEED;
+        slider.scrollLeft = scrollLeft - walk;
+    });
+
+</script>
+</body>
+</html>

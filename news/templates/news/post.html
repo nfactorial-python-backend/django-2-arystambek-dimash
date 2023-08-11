@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Post News{% endblock %}
+
+{% block content %}
+<style>
+    .post-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.22);
+    }
+
+    .post-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post-container label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .post-container input {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .post-container input[type="submit"] {
+        background-color: #41ba7b;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .post-container input[type="submit"]:hover {
+        background-color: #00b348;
+    }
+
+</style>
+<div class="post-container">
+    <form action="{% url 'news:post_news' %}" method="post">
+        {% csrf_token %}
+        <label>Title</label>
+        <input name="title">
+        <label>Short Description</label>
+        <input name="description">
+        <label>Content</label>
+        <input name="content">
+        <input type="submit">
+    </form>
+
+</div>
+{% endblock %}
