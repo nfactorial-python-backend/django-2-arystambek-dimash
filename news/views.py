@@ -9,7 +9,7 @@ def home(request):
 
 
 def news(request):
-    news_list = News.objects.order_by("-created_at").all()
+    news_list = News.objects.order_by("-created_at")
     paginator = Paginator(news_list, 10)
 
     page_number = request.GET.get('page')
@@ -21,7 +21,7 @@ def news(request):
 def detail(request, news_id):
     news_obj = get_object_or_404(News, pk=news_id)
     news_instance = News.objects.get(pk=news_id)
-    comments = Comment.objects.filter(news=news_instance)
+    comments = Comment.objects.order_by('-created_at').filter(news=news_instance)
     context = {"news_obj": news_obj, "comments": comments}
     return render(request, 'news/detail.html', context)
 
@@ -42,7 +42,8 @@ def news_post(request):
         title = request.POST["title"]
         description = request.POST["description"]
         content = request.POST["content"]
-        news_obj = News(title=title, description=description, content=content)
-        news_obj.save()
-        return HttpResponseRedirect(reverse("news:detail", args=(news_obj.id,)))
+        if title and content:
+            news_obj = News(title=title, description=description, content=content)
+            news_obj.save()
+            return HttpResponseRedirect(reverse("news:detail", args=(news_obj.id,)))
     return render(request, "news/post.html")
