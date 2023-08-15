@@ -5,20 +5,37 @@
 
 {% block content %}
 <style>
-    .title{
+    .title {
         color: black;
     }
-    .title:hover{
+
+    .title:hover {
         color: gray;
     }
+
+    .custom-button {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #c42525;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+
 </style>
 {% if page_obj %}
 {% for news in page_obj %}
 <div class="news-card">
     <img src="{% static 'img/newspaper.jpg' %}"/>
-    <div class="news-text">
+    <div class="news-text" style="flex-direction: column">
+        <div style="margin-bottom: 35px">
         <a href="{% url 'news:detail' news.id %}" class="title"><h2>{{ news.title }}</h2></a>
         <p>{{ news.description }}</p>
+        </div>
+        <a href="{% url 'news:update' news.id %}" class="custom-button">Update News</a>
     </div>
     <div style="padding-top: 15px"></div>
 </div>
