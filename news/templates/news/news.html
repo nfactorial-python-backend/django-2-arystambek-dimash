@@ -13,7 +13,7 @@
         color: gray;
     }
 
-    .custom-button {
+    .custom-button,input[type="submit"]{
         display: inline-block;
         padding: 5px 10px;
         background-color: #c42525;
@@ -24,7 +24,9 @@
         transition: background-color 0.3s ease-in-out;
     }
 
-
+    .box a{
+        margin-right: 15px;
+    }
 </style>
 {% if page_obj %}
 {% for news in page_obj %}
@@ -32,10 +34,18 @@
     <img src="{% static 'img/newspaper.jpg' %}"/>
     <div class="news-text" style="flex-direction: column">
         <div style="margin-bottom: 35px">
-        <a href="{% url 'news:detail' news.id %}" class="title"><h2>{{ news.title }}</h2></a>
-        <p>{{ news.description }}</p>
+            <a href="{% url 'news:detail' news.id %}" class="title"><h2>{{ news.title }}</h2></a>
+            <p>{{ news.description }}</p>
         </div>
-        <a href="{% url 'news:update' news.id %}" class="custom-button">Update News</a>
+        {% if user == news.author%}
+        <div style="display: flex;" class="box">
+            <a href="{% url 'news:update' news.id %}" class="custom-button">Update News</a>
+             <form action="{% url 'news:delete_news' news.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" style="background-color: #00b348" value="Delete News">
+            </form>
+        </div>
+        {% endif %}
     </div>
     <div style="padding-top: 15px"></div>
 </div>

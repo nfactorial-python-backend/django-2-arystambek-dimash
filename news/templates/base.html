@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'news/style.css' %}">
     <title>{% block title %}{% endblock %}</title>
+    <style>
+        .ps p{
+            margin-left: 15px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -15,13 +20,22 @@
                 <img src="{% static 'img/logo.jpg' %}" class="logo" alt="Spotify Logo"/>
                 <a href="#" class="nav-link">News</a>
             </div>
+            {% if user.is_authenticated %}
+            <div class="ps">
+                <p>Logged as @{{user.username}} || <a href="{% url 'logout' %}">Logout</a></p>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a></p>
+            </div>
+            {% endif %}
         </div>
     </nav>
     <navbar>
         <div class="navbar">
             <div class="navbar-link"><a href="{% url 'news:home' %}">Home</a></div>
             <div class="navbar-link"><a href="{% url 'news:news' %}">News</a></div>
+            {% if user.is_authenticated %}
             <div class="navbar-link"><a href="{% url 'news:post_news' %}">Post News</a></div>
+            {% endif %}
         </div>
     </navbar>
 </header>

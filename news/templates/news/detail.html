@@ -94,7 +94,9 @@
     .submit-button:hover {
         background-color: #eae8e8;
     }
-     .custom-button {
+
+
+    .custom-button,.delete {
         display: inline-block;
         padding: 5px 10px;
         background-color: #c42525;
@@ -103,6 +105,10 @@
         border-radius: 5px;
         font-weight: bold;
         transition: background-color 0.3s ease-in-out;
+    }
+
+    .box a {
+        margin-left: 15px;
     }
 </style>
 <div class="container-news">
@@ -117,11 +123,21 @@
 
 </div>
 <div style="display: flex;justify-content: right;margin-top: 50px">
-<a href="{% url 'news:update' news_obj.id %}" class="custom-button">Update News</a>
+    {% if user == news_obj.author%}
+    <div style="display: flex;" class="box">
+
+        <a href="{% url 'news:update' news_obj.id %}" class="custom-button">Update News</a>
+        <form action="{% url 'news:delete_news' news_obj.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" style="background-color: #00b348" value="Delete News" class="delete">
+        </form>
+    </div>
+    {% endif %}
 </div>
 
 <div class="container-comment">
     <h2>Comments</h2>
+    {% if user.is_authenticated %}
     <form action="{% url 'news:comment' news_obj.id %}" method="post">
         {% csrf_token %}
         <div class="form-container">
@@ -129,16 +145,25 @@
             <input class="submit-button" type="submit" value="Send">
         </div>
     </form>
+    {% else %}
+    <p>That write comment, first authenticated </p>
+    {% endif %}
     {% if comments %}
     {% for comm in comments %}
     <div class="comment-box">
         <div style="display: flex;justify-content: space-between">
-            <p class="user">User</p>
+            <p class="user">{{comm.author.username}}</p>
             <p style="color: black">{{comm.created_at}}</p>
         </div>
-        <p class="contnet">
+        <p class="content">
             {{comm.content}}
         </p>
+        {% if user == comm.author %}
+        <form action="{% url 'news:delete_comment' news_obj.id comm.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #00b348" class="delete">Delete comment</button>
+        </form>
+        {% endif %}
     </div>
     {% endfor %}
     {% else %}
