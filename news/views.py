@@ -122,7 +122,6 @@ def delete_comment(request, news_id, comment_id):
 def news_api(request):
     if request.method == "POST":
         news_serializer = NewsSerializer(data=request.data)
-        news_serializer["author"] = request.user
         if news_serializer.is_valid():
             news_serializer.save()
             return Response(news_serializer.data,status=status.HTTP_201_CREATED)
