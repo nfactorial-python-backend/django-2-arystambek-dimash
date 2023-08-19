@@ -12,5 +12,8 @@ urlpatterns = [
     path('news/change/<int:news_id>/', views.NewsUpdate.as_view(), name="update"),
     path('signup/',views.signup,name="signup"),
     path("<int:news_id>/delete", views.delete_news, name="delete_news"),
-    path("news/<int:news_id>/detail/<int:comment_id>/delete", views.delete_comment, name="delete_comment")
+    path("news/<int:news_id>/detail/<int:comment_id>/delete", views.delete_comment, name="delete_comment"),
+    path("api/news/",views.news_api),
+    path("api/news/<int:pk>/", views.NewsDetail.as_view()),
+
 ]

@@ -9,7 +9,10 @@ from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
-
+from .serializers import NewsSerializer
+from rest_framework import generics,status,serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 def home(request):
     return render(request, 'news/home.html')
@@ -113,3 +116,28 @@ def delete_comment(request, news_id, comment_id):
             comment_db.delete()
 
     return redirect(reverse("news:detail", args=(news_db.id,)))
+
+
+@api_view(["POST", "GET"])
+def news_api(request):
+    if request.method == "POST":
+        news_serializer = NewsSerializer(data=request.data)
+        news_serializer["author"] = request.user
+        if news_serializer.is_valid():
+            news_serializer.save()
+            return Response(news_serializer.data,status=status.HTTP_201_CREATED)
+
+        return Response(news_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == "GET":
+        news_queryset = News.objects.all()
+        serializer = NewsSerializer(news_queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class NewsDetail(generics.RetrieveDestroyAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+
+
+
